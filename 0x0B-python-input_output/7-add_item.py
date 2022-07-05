@@ -1,24 +1,17 @@
 #!/usr/bin/python3
-"""
-    module to add items to a list and save the list
-    as a json string
-"""
-
-import os
 import sys
 
+save = __import__('5-save_to_json_file').save_to_json_file
+load = __import__('6-load_from_json_file').load_from_json_file
 
-load_from_json_file = __import__('6-load_from_json_file').load_from_json_file
-save_to_json_file = __import__('5-save_to_json_file').save_to_json_file
 
-file_is_present = os.path.exists("add_item.json")
-if not file_is_present:
-    save_to_json_file([], "add_item.json")
+""" Adds all arguments to a Python list, and then save them to a file """
+try:
+    list = load("add_item.json")
+except Exception:
+    list = []
 
-if len(sys.argv) < 2:
-    exit(0)
+for i in sys.argv[1:]:
+        list.append(i)
 
-my_list = load_from_json_file("add_item.json")
-for i in range(1, len(sys.argv)):
-    my_list.append(sys.argv[i])
-save_to_json_file(my_list, "add_item.json")
+save(list, "add_item.json")
